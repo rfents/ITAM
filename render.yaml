@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: gmpi-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SECRET_KEY
+        value: changez_cette_clé_secrète_jwt_très_longue_et_sécurisée_pour_production
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+      - key: CORS_ORIGINS
+        value: https://votre-frontend.vercel.app
+      - key: DATABASE_URL
+        fromDatabase:
+          name: gmpi-db
+          property: connectionString
+
+databases:
+  - name: gmpi-db
+    databaseName: gmpi_db
+    user: gmpi_user
