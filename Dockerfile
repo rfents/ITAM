@@ -1,7 +1,6 @@
-# Backend-only Dockerfile for Railway
+# Simple FastAPI backend for Railway
 FROM python:3.11-slim
 
-# Set working directory
 WORKDIR /app
 
 # Install system dependencies
@@ -11,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install Python dependencies
+# Copy and install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -21,5 +20,5 @@ COPY app/ ./app/
 # Expose port
 EXPOSE 8000
 
-# Start the FastAPI backend
+# Start FastAPI
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
